@@ -35,7 +35,7 @@ You must import the CSS to get all the card styles
 
 ```js
 import VCreditCard from 'v-credit-card-component';
-import 'v-credit-card-component/dist/VCreditCard.css';
+import 'v-credit-card-component/dist/v-credit-card.css';
 ```
 
 #### Available props
