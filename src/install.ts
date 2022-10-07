@@ -1,13 +1,13 @@
-import HelloWorld from "./components/HelloWorld.vue";
+import CreditCard from './components/CreditCard.vue';
 
-const HelloWorldSimple = {
+const VCreditCard = {
   install(Vue: any) {
-    Vue.component("hello-world", HelloWorld);
+    Vue.component('v-credit-card', CreditCard);
   },
 };
 
-if (typeof window !== "undefined" && window.Vue) {
-  window.Vue.use(HelloWorldSimple);
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(VCreditCard);
 }
 
-export default HelloWorldSimple;
+export default VCreditCard;

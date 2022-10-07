@@ -2,7 +2,7 @@
   "name": "v-credit-card-component",
   "version": "0.1.1",
   "private": false,
-  "main": "./dist/vue-hello-world-simple.common.js",
+  "main": "./dist/v-credit-card.common.js",
   "files": [
     "dist/*"
   ],
@@ -13,11 +13,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-npm": "vue-cli-service build --target lib --name vue-hello-world-simple ./src/install.ts",
+    "build-npm": "vue-cli-service build --target lib --name v-credit-card ./src/install.ts",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/eslint-config-prettier": "^7.0.0",
     "core-js": "^3.8.3",
     "imask": "^6.4.3",
     "vue": "^2.6.14",

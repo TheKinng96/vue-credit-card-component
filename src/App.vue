@@ -1,19 +1,23 @@
 <template>
   <div id="app">
-    <hello-world :msg="'hihi'" />
+    <hello-world @change="creditInfoChanged" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/CreditCard.vue';
 
 @Component({
   components: {
     HelloWorld,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  creditInfoChanged(data: any) {
+    console.log(data);
+  }
+}
 </script>
 
 <style lang="scss">
