@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+    <hello-world :msg="'hihi'" />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue";
+
+@Component({
+  components: {
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
+</script>
 
 <style lang="scss">
 #app {
