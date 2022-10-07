@@ -1,13 +1,15 @@
 {
   "name": "v-credit-card-component",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
-  "main" : "./dist/vue-hello-world-simple.common.js",
-  "files": ["dist/*"],
+  "main": "./dist/vue-hello-world-simple.common.js",
+  "files": [
+    "dist/*"
+  ],
   "author": {
     "name": "TheKinng96",
     "email": "fengyuan.yap@gmail.com"
-},
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
