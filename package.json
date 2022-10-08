@@ -10,6 +10,18 @@
     "name": "TheKinng96",
     "email": "fengyuan.yap@gmail.com"
   },
+  "homepage": "https://github.com/TheKinng96/vue-credit-card-component",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheKinng96/vue-credit-card-component.git"
+  },
+  "keywords": [
+    "vue",
+    "credit card",
+    "payment UI",
+    "vue credit card component",
+    "Vue 2"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

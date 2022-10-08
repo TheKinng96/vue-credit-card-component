@@ -56,12 +56,10 @@ You can listen for the `@change` event to get an object of all the form fields w
 
 ```html
 <template>
-  <VCreditCard @change="onInputChanged" />
+  <v-credit-card @change="onInputChanged" />
 </template>
 
 <script>
-  import VCreditCard from 'v-credit-card-component';
-
   interface Data {
     name: string;
     businessName: string;
@@ -78,46 +76,79 @@ You can listen for the `@change` event to get an object of all the form fields w
         console.log('Credit card fields', values);
       },
     },
-    components: {
-      VCreditCard,
+  };
+</script>
+```
+
+#### Enable and disable business credit card checkbox
+
+This example will not hide the business card toggle.
+
+```html
+<template>
+  <v-credit-card :acceptBusinessCard="false" />
+</template>
+```
+
+#### Reordering input fields
+
+This example shows how to rearrange the input fields to meet your needs.
+
+If two input fields have the same order, the order will following as below:
+
+businessName > name > card > security > isBusinessCardCheckbox
+
+```html
+<template>
+  <v-credit-card :order="order" />
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        // ...
+        order: {
+          businessName: 0, // Show on the top
+          name: 1, // Show on the second
+          card: 2, // Show on the third
+          security: 3, // Show on the forth
+          isBusinessCardCheckbox: 4, // Show on the fifth
+        },
+      };
     },
   };
 </script>
 ```
 
-#### Example: store the form data in your component
+#### Store the form data in your component
 
 This example shows how to have your local data reflect the changes inside the card component.
 
 ```html
 <template>
-  <VCreditCard @change="onInputChanged" />
+  <v-credit-card @change="onInputChanged" />
 </template>
 
 <script>
-  import VCreditCard from 'v-credit-card-component';
-
   export default {
-      data() {
-          return {
-              name: '',
-              cardNumber: '',
-              expiration: '',
-              security: '',
-              businessName: '';
-              isBusinessCard: '';
-          };
-      },
-      methods: {
-          onInputChanged(values) {
-              for (const key in values) {
-                  this[key] = values[key];
-              }
-          }
-      },
-      components: {
-          VCreditCard
+    data() {
+      return {
+        name: '',
+        cardNumber: '',
+        expiration: '',
+        security: '',
+        businessName: '';
+        isBusinessCard: '';
+      };
+    },
+    methods: {
+      onInputChanged(values) {
+        for (const key in values) {
+          this[key] = values[key];
+        }
       }
+    },
   }
 </script>
 ```
@@ -126,12 +157,10 @@ If you need the card type as well (Visa, Mastercard, etc) you can listen to the 
 
 ```html
 <template>
-  <VCreditCard @cardChanged="cardChanged" />
+  <v-credit-card @cardChanged="cardChanged" />
 </template>
 
 <script>
-  import VCreditCard from 'v-credit-card-component';
-
   export default {
     data() {
       return {
@@ -145,9 +174,6 @@ If you need the card type as well (Visa, Mastercard, etc) you can listen to the 
         this.cardName = cardName;
       },
     },
-    components: {
-      VCreditCard,
-    },
   };
 </script>
 ```
@@ -158,12 +184,10 @@ If you wish to override the default field labels, you can accomplish that by pas
 
 ```html
 <template>
-  <VCreditCard :trans="translations" />
+  <v-credit-card :trans="translations" />
 </template>
 
 <script>
-  import VCreditCard from 'v-credit-card';
-
   const translations = {
     name: {
       label: '名前',
@@ -199,13 +223,10 @@ If you wish to override the default field labels, you can accomplish that by pas
         translations,
       };
     },
-    components: {
-      VCreditCard,
-    },
   };
 </script>
 ```
 
 ## License
 
-MIT © 2018-present
+MIT © 2022-present
