@@ -227,6 +227,90 @@ If you wish to override the default field labels, you can accomplish that by pas
 </script>
 ```
 
+#### Error handling when card has error
+
+The error message will be removed if the input is dirty.
+
+```html
+<template>
+  <v-credit-card :errorMessage="errorMessage" />
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        // ...
+        errorMessage: 'something wrong with the card',
+      };
+    },
+    methods: {
+      // ...
+      yourApiCall() {
+        fetch('api here')
+          .then()
+          .catch((error) => {
+            this.errorMessage = error;
+          });
+      },
+    },
+  };
+</script>
+```
+
+### TYPEs
+
+```js
+// For most translation items will have a label and a placeholder
+// Except: security and isBusinessCard dont have placeholders
+interface ITranslationItem {
+  label: string;
+  placeholder?: string;
+}
+
+interface ITranslation {
+  name: ITranslationItem;
+  businessName: ITranslationItem;
+  card: ITranslationItem;
+  expiration: ITranslationItem;
+  security: ITranslationItem;
+  isBusinessCard: ITranslationItem;
+  image: {
+    cardNumber: string,
+    cardholder: string,
+    expiration: string,
+    valid: string,
+    thru: string,
+    security: string,
+  };
+}
+
+// Data array that will be returned on the onChange event
+interface IData {
+  name: string;
+  businessName: string;
+  cardNumber: string;
+  expiration: string;
+  security: string;
+  isBusinessCard: boolean;
+}
+
+// Order
+interface Order {
+  businessName: number;
+  name: number;
+  card: number;
+  security: number;
+  isBusinessCardCheckbox: number;
+}
+
+// Configuration for the small card brand icon in the input after valid card number is typed
+interface ICardIconConfig {
+  showIcon?: boolean;
+  position: 'inline' | 'top';
+}
+```
+
 ## License
 
 MIT © 2022-present

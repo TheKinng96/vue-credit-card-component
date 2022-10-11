@@ -275,7 +275,7 @@ export default class CreditCard extends Vue {
   })
   public cardIconConfig!: ICardIconConfig;
   @Prop({
-    default: 'null',
+    default: '',
   })
   public errorMessage?: string;
 
@@ -472,7 +472,7 @@ export default class CreditCard extends Vue {
           svg {
             &.inline {
               right: 38px;
-              top: calc(50% - 16px);
+              top: calc(50% - 18px);
             }
 
             &.exclamation {
