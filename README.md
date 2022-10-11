@@ -10,7 +10,7 @@ Features:
 - Mini icon position configuration
 - Valid mark to let user knows input is fine
 
-<img src="./card.gif">
+<img src="./src/assets/card.gif">
 
 #### Installation
 
@@ -28,7 +28,7 @@ import VCreditCard from 'v-credit-card-component';
 
 Vue.use(VCreditCard);
 
-// usage
+// Usage
 <v-credit-card />;
 ```
 
