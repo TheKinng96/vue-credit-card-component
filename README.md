@@ -46,9 +46,11 @@ import 'v-credit-card-component/dist/v-credit-card.css';
 | className          | no       | any string                               | none           | For any custom design, add your own wrapper class |
 | yearDigits         | no       | 2,4 (number)                             | 2              | construct the expiration year (YY or YYYY)        |
 | noCard             | no       | true, false                              | false          | Show only the form without the credit card image  |
-| trans              | no       | Object                                   | default labels | Override the default labels with your own         |
-| order              | no       | Object                                   | default orders | Rearrange the input orders                        |
+| trans              | no       | ITranslation                             | default labels | Override the default labels with your own         |
+| order              | no       | Order                                    | default orders | Rearrange the input orders                        |
 | acceptBusinessCard | no       | boolean                                  | true           | Will add a toggle for business name input         |
+| cardIconConfig     | no       | ICardIconConfig                          | default config | Controlling the position of the mini card icon    |
+| errorMessage       | no       | string                                   | ''             | Show the error message if process has error       |
 
 #### Events
 
@@ -178,6 +180,35 @@ If you need the card type as well (Visa, Mastercard, etc) you can listen to the 
 </script>
 ```
 
+#### Mini card brand icon styling
+
+We can configure the position of the icon as well as displaying of the icon.
+PS: the icon appears after users entered a valid card number
+
+default: `{ showIcon: true, position: 'inline' }`
+
+<img src="./src/assets/card-position.png">
+
+```html
+<template>
+  <v-credit-card :cardIconConfig="cardConfig" />
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        // ...
+        cardConfig: {
+          showIcon: true,
+          position: 'top',
+        },
+      };
+    },
+  };
+</script>
+```
+
 #### Translations
 
 If you wish to override the default field labels, you can accomplish that by passing a custom translation object.
@@ -230,6 +261,8 @@ If you wish to override the default field labels, you can accomplish that by pas
 #### Error handling when card has error
 
 The error message will be removed if the input is dirty.
+
+<img src="./src/assets/card-error.png">
 
 ```html
 <template>

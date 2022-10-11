@@ -14,7 +14,7 @@ import HelloWorld from '@/components/CreditCard.vue';
   },
 })
 export default class App extends Vue {
-  creditInfoChanged(data: any) {
+  creditInfoChanged() {
     // console.log(data);
   }
 }
