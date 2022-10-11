@@ -65,17 +65,26 @@ export const cardMasks = {
 };
 
 export const expirationMask = (isTwoDigitsYear: boolean) => {
+    const fullYear = new Date().getFullYear();
+    const twoDigitsYearString = fullYear.toString().slice(2);
+    let twoDigitsYear = parseInt(fullYear.toString().slice(2));
+
+    if (parseInt(twoDigitsYearString) > 50) {
+        // Maximum credit card expiry date is 50 years
+        twoDigitsYear = 0;
+    }
+
     const year = isTwoDigitsYear ? {
         YY: {
             mask: IMask.MaskedRange,
-            from: 0,
+            from: twoDigitsYear,
             to: 99
         }
     } : {
         YYYY: {
             mask: IMask.MaskedRange,
-            from: 2019,
-            to: 2100
+            from: fullYear,
+            to: fullYear + 100
         }
     };
 
