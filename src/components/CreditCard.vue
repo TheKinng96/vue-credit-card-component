@@ -61,7 +61,11 @@
             @blur="flipped = false"
           />
         </div>
-        <div class="field" :style="{ order: order.card }">
+        <div
+          class="field"
+          :style="{ order: order.card }"
+          :class="{ error: innerErrorMessage }"
+        >
           <label for="cardNumber">{{ trans.card.label }}</label>
           <input
             type="text"
@@ -72,6 +76,7 @@
             inputmode="numeric"
             :placeholder="trans.card.placeholder"
             @focus="flipped = false"
+            @keypress="clearError"
           />
           <svg
             v-if="cardIconConfig.showIcon !== false"
@@ -85,6 +90,19 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
           >
             <component :is="cardIcon" />
+          </svg>
+          <p v-if="innerErrorMessage">{{ innerErrorMessage }}</p>
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            v-if="innerErrorMessage"
+            class="exclamation"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="red"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
+            />
           </svg>
         </div>
         <div class="field-group" :style="{ order: order.security }">
@@ -252,10 +270,17 @@ export default class CreditCard extends Vue {
   @Prop({
     default: () => ({
       showIcon: true,
-      position: 'top',
+      position: 'inline',
     }),
   })
   public cardIconConfig!: ICardIconConfig;
+  @Prop({
+    default: 'null',
+  })
+  public errorMessage?: string;
+
+  // Copied of error message
+  innerErrorMessage = '';
   defaultColor = 'grey';
   flipped = false;
   cardType = null;
@@ -288,9 +313,16 @@ export default class CreditCard extends Vue {
     this.$emit('cardChanged', val);
   }
 
+  clearError() {
+    if (this.innerErrorMessage) {
+      this.innerErrorMessage = '';
+    }
+  }
+
   mounted() {
     this.defineMasks();
     this.setMasksListeners();
+    this.innerErrorMessage = this.errorMessage as string;
   }
 
   defineMasks() {
@@ -427,6 +459,36 @@ export default class CreditCard extends Vue {
           width: 100%;
           border-radius: 3px;
           border: 1px solid #dcdcdc;
+        }
+
+        &.error {
+          input,
+          input:focus,
+          input:focus-visible {
+            border-color: red;
+            outline: 1px solid red;
+          }
+
+          svg {
+            &.inline {
+              right: 38px;
+              top: calc(50% - 16px);
+            }
+
+            &.exclamation {
+              position: absolute;
+              width: 1.5rem;
+              right: 0.5rem;
+              top: 2.5rem;
+            }
+          }
+
+          p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: red;
+            margin-top: 0.2rem;
+          }
         }
       }
 
