@@ -237,7 +237,7 @@ If you wish to override the default field labels, you can accomplish that by pas
     },
     businessName: {
       label: '会社名',
-      placeholder: '株式会社　これから',
+      placeholder: 'COREKARA INC',
     },
     security: {
       label: 'セキュリティーコード',
