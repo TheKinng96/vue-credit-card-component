@@ -144,8 +144,8 @@ This example shows how to have your local data reflect the changes inside the ca
         cardNumber: '',
         expiration: '',
         security: '',
-        businessName: '';
-        isBusinessCard: '';
+        businessName: '',
+        isBusinessCard: '',
       };
     },
     methods: {
@@ -153,9 +153,9 @@ This example shows how to have your local data reflect the changes inside the ca
         for (const key in values) {
           this[key] = values[key];
         }
-      }
+      },
     },
-  }
+  };
 </script>
 ```
 
@@ -234,6 +234,10 @@ If you wish to override the default field labels, you can accomplish that by pas
     },
     expiration: {
       label: '有効期限',
+    },
+    businessName: {
+      label: '会社名',
+      placeholder: '株式会社　これから',
     },
     security: {
       label: 'セキュリティーコード',

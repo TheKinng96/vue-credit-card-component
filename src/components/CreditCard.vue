@@ -566,7 +566,7 @@ export default class CreditCard extends Vue {
               position: absolute;
               width: 1.5rem;
               right: 0.5rem;
-              top: 2.5rem;
+              top: 50%;
             }
           }
         }
@@ -589,7 +589,7 @@ export default class CreditCard extends Vue {
               position: absolute;
               width: 1.5rem;
               right: 0.5rem;
-              top: 2.5rem;
+              top: calc(50% - 0.75rem);
             }
           }
 

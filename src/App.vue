@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <hello-world @change="creditInfoChanged" :direction="'column'" />
+    <hello-world
+      @change="creditInfoChanged"
+      :direction="'column'"
+      :trans="translations"
+    />
   </div>
 </template>
 
@@ -14,6 +18,38 @@ import HelloWorld from '@/components/CreditCard.vue';
   },
 })
 export default class App extends Vue {
+  translations = {
+    name: {
+      label: '名前',
+      placeholder: 'カードホルダー',
+    },
+    card: {
+      label: 'クレジットカード',
+      placeholder: 'クレジットカード',
+    },
+    businessName: {
+      label: '会社名',
+      placeholder: '株式会社　これから',
+    },
+    expiration: {
+      label: '有効期限',
+    },
+    security: {
+      label: 'セキュリティーコード',
+      placeholder: 'コード',
+    },
+    isBusinessCard: {
+      label: 'ビジネスカードを使います',
+    },
+    image: {
+      cardNumber: 'クレジットカード',
+      cardholder: 'カードホルダー',
+      expiration: '有効期限',
+      valid: 'valid',
+      thru: 'thru',
+      security: 'セキュリティーコード',
+    },
+  };
   creditInfoChanged() {
     // console.log(data);
   }
