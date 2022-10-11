@@ -6,6 +6,7 @@ Features:
 
 - Business card support
 - Order arrangement support
+- Error handling for card
 
 <img src="./card.gif">
 

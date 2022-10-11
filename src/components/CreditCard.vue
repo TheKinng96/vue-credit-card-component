@@ -36,6 +36,7 @@
           class="field"
           :style="{ order: order.businessName }"
           v-if="form.isBusinessCard && acceptBusinessCard"
+          :class="{ success: form.businessName.length > 0 }"
         >
           <label for="businessName">{{ trans.businessName.label }}</label>
           <input
@@ -47,8 +48,24 @@
             v-model="form.businessName"
             @focus="flipped = false"
           />
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            v-if="form.businessName.length > 0"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="check"
+          >
+            <path
+              fill="green"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+            />
+          </svg>
         </div>
-        <div class="field" :style="{ order: order.name }">
+        <div
+          class="field"
+          :style="{ order: order.name }"
+          :class="{ success: form.name.length > 0 }"
+        >
           <label for="name">{{ trans.name.label }}</label>
           <input
             maxlength="20"
@@ -60,11 +77,23 @@
             @focus="flipped = false"
             @blur="flipped = false"
           />
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            v-if="form.name.length > 0"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="check"
+          >
+            <path
+              fill="green"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+            />
+          </svg>
         </div>
         <div
           class="field"
           :style="{ order: order.card }"
-          :class="{ error: innerErrorMessage }"
+          :class="{ error: innerErrorMessage, success: cardIsValid }"
         >
           <label for="cardNumber">{{ trans.card.label }}</label>
           <input
@@ -104,9 +133,21 @@
               d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
             />
           </svg>
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            v-if="cardIsValid"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="check"
+          >
+            <path
+              fill="green"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+            />
+          </svg>
         </div>
         <div class="field-group" :style="{ order: order.security }">
-          <div class="field">
+          <div class="field" :class="{ success: expiryDateIsValid }">
             <label for="expirationDate"
               >{{ trans.expiration.label }} (mm/{{
                 isTwoDigitsYear ? 'yy' : 'yyyy'
@@ -122,8 +163,20 @@
               inputmode="numeric"
               @focus="flipped = false"
             />
+            <!-- Downloaded from FontAwesome -->
+            <svg
+              v-if="expiryDateIsValid"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              class="check"
+            >
+              <path
+                fill="green"
+                d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+              />
+            </svg>
           </div>
-          <div class="field">
+          <div class="field" :class="{ success: form.security.length === 3 }">
             <label for="securityCode">{{ trans.security.label }}</label>
             <input
               type="text"
@@ -135,6 +188,18 @@
               inputmode="numeric"
               @focus="flipped = true"
             />
+            <!-- Downloaded from FontAwesome -->
+            <svg
+              v-if="form.security.length === 3"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              class="check"
+            >
+              <path
+                fill="green"
+                d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+              />
+            </svg>
           </div>
         </div>
         <div
@@ -389,6 +454,21 @@ export default class CreditCard extends Vue {
     return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
   }
 
+  get cardIsValid() {
+    if (!this.errorMessage) {
+      return this.form.cardNumber.length === 19;
+    }
+
+    return false;
+  }
+
+  get expiryDateIsValid() {
+    if (this.isTwoDigitsYear) {
+      return this.form.expiration.length === 5;
+    }
+    return this.form.expiration.length === 7;
+  }
+
   get isTwoDigitsYear(): boolean {
     return this.yearDigits === 2;
   }
@@ -459,6 +539,29 @@ export default class CreditCard extends Vue {
           width: 100%;
           border-radius: 3px;
           border: 1px solid #dcdcdc;
+        }
+
+        &.success {
+          input,
+          input:focus,
+          input:focus-visible {
+            border-color: green;
+            outline: 1px solid green;
+          }
+
+          svg {
+            &.inline {
+              right: 38px;
+              top: calc(50% - 6px);
+            }
+
+            &.check {
+              position: absolute;
+              width: 1.5rem;
+              right: 0.5rem;
+              top: 2.5rem;
+            }
+          }
         }
 
         &.error {
