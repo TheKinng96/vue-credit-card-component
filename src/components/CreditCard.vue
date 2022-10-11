@@ -58,6 +58,7 @@
             :placeholder="trans.name.placeholder"
             v-model="form.name"
             @focus="flipped = false"
+            @blur="flipped = false"
           />
         </div>
         <div class="field" :style="{ order: order.card }">
@@ -73,7 +74,9 @@
             @focus="flipped = false"
           />
           <svg
+            v-if="cardIconConfig.showIcon !== false"
             class="ccicon"
+            :class="[cardIconConfig.position]"
             width="750"
             height="471"
             viewBox="0 0 750 471"
@@ -145,7 +148,29 @@ import * as InputIcons from './CreditCard/inputIcons';
 import * as CardIcons from './CreditCard/cardDisplay';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
-interface Translation {
+interface ITranslationItem {
+  label: string;
+  placeholder?: string;
+}
+
+interface ITranslation {
+  name: ITranslationItem;
+  businessName: ITranslationItem;
+  card: ITranslationItem;
+  expiration: ITranslationItem;
+  security: ITranslationItem;
+  isBusinessCard: ITranslationItem;
+  image: {
+    cardNumber: string;
+    cardholder: string;
+    expiration: string;
+    valid: string;
+    thru: string;
+    security: string;
+  };
+}
+
+interface IData {
   name: string;
   businessName: string;
   cardNumber: string;
@@ -160,6 +185,11 @@ interface Order {
   card: number;
   security: number;
   isBusinessCardCheckbox: number;
+}
+
+interface ICardIconConfig {
+  showIcon?: boolean;
+  position: 'inline' | 'top';
 }
 
 @Component({
@@ -203,8 +233,8 @@ export default class CreditCard extends Vue {
       },
     }),
   })
-  private trans!: Translation;
-  @Prop({ default: 'column' }) private direction!: 'row' | 'column';
+  public trans!: ITranslation;
+  @Prop({ default: 'column' }) public direction!: 'row' | 'column';
   @Prop({
     default: () => ({
       businessName: 0,
@@ -214,11 +244,18 @@ export default class CreditCard extends Vue {
       isBusinessCardCheckbox: 4,
     }),
   })
-  private order!: Order;
-  @Prop({ default: true }) private acceptBusinessCard!: boolean;
-  @Prop({ default: '' }) private className!: string;
-  @Prop({ default: false }) private noCard!: boolean;
-  @Prop({ default: 2 }) private yearDigits!: 2 | 4;
+  public order!: Order;
+  @Prop({ default: true }) public acceptBusinessCard!: boolean;
+  @Prop({ default: '' }) public className!: string;
+  @Prop({ default: false }) public noCard!: boolean;
+  @Prop({ default: 2 }) public yearDigits!: 2 | 4;
+  @Prop({
+    default: () => ({
+      showIcon: true,
+      position: 'top',
+    }),
+  })
+  public cardIconConfig!: ICardIconConfig;
   defaultColor = 'grey';
   flipped = false;
   cardType = null;
@@ -228,7 +265,7 @@ export default class CreditCard extends Vue {
   cardNumberMask: any = null;
   expirationDateMask: any = null;
   securityCodeMask: any = null;
-  form = {
+  form: IData = {
     name: '',
     businessName: '',
     cardNumber: '',
@@ -395,16 +432,27 @@ export default class CreditCard extends Vue {
 
       .is-business-card-checkbox {
         display: flex;
+        gap: 0.5rem;
       }
     }
   }
 
   .ccicon {
     height: 38px;
-    position: absolute;
-    right: 6px;
-    top: calc(50% - 9px);
     width: 60px;
+    position: absolute;
+
+    &.inline {
+      right: 6px;
+      top: calc(50% - 6px);
+    }
+
+    &.top {
+      right: 2px;
+      top: -8px;
+      height: 30px;
+      width: 50px;
+    }
   }
 
   .credit-card-image {

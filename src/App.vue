@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <hello-world @change="creditInfoChanged" />
+    <hello-world @change="creditInfoChanged" :direction="'column'" />
   </div>
 </template>
 
