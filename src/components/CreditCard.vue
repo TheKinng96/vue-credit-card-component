@@ -36,7 +36,7 @@
           class="field"
           :style="{ order: order.businessName }"
           v-if="form.isBusinessCard && acceptBusinessCard"
-          :class="{ success: form.businessName.length > 0 }"
+          :class="{ success: form.businessName.length > 0 && showValidMark }"
         >
           <label for="businessName">{{ trans.businessName.label }}</label>
           <input
@@ -50,7 +50,7 @@
           />
           <!-- Downloaded from FontAwesome -->
           <svg
-            v-if="form.businessName.length > 0"
+            v-if="form.businessName.length > 0 && showValidMark"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             class="check"
@@ -64,7 +64,7 @@
         <div
           class="field"
           :style="{ order: order.name }"
-          :class="{ success: form.name.length > 0 }"
+          :class="{ success: form.name.length > 0 && showValidMark }"
         >
           <label for="name">{{ trans.name.label }}</label>
           <input
@@ -79,7 +79,7 @@
           />
           <!-- Downloaded from FontAwesome -->
           <svg
-            v-if="form.name.length > 0"
+            v-if="form.name.length > 0 && showValidMark"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             class="check"
@@ -93,7 +93,10 @@
         <div
           class="field"
           :style="{ order: order.card }"
-          :class="{ error: innerErrorMessage, success: cardIsValid }"
+          :class="{
+            error: innerErrorMessage,
+            success: cardIsValid && showValidMark,
+          }"
         >
           <label for="cardNumber">{{ trans.card.label }}</label>
           <input
@@ -135,7 +138,7 @@
           </svg>
           <!-- Downloaded from FontAwesome -->
           <svg
-            v-if="cardIsValid"
+            v-if="cardIsValid && showValidMark"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             class="check"
@@ -147,7 +150,10 @@
           </svg>
         </div>
         <div class="field-group" :style="{ order: order.security }">
-          <div class="field" :class="{ success: expiryDateIsValid }">
+          <div
+            class="field"
+            :class="{ success: expiryDateIsValid && showValidMark }"
+          >
             <label for="expirationDate"
               >{{ trans.expiration.label }} (mm/{{
                 isTwoDigitsYear ? 'yy' : 'yyyy'
@@ -165,7 +171,7 @@
             />
             <!-- Downloaded from FontAwesome -->
             <svg
-              v-if="expiryDateIsValid"
+              v-if="expiryDateIsValid && showValidMark"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               class="check"
@@ -176,7 +182,10 @@
               />
             </svg>
           </div>
-          <div class="field" :class="{ success: form.security.length === 3 }">
+          <div
+            class="field"
+            :class="{ success: form.security.length === 3 && showValidMark }"
+          >
             <label for="securityCode">{{ trans.security.label }}</label>
             <input
               type="text"
@@ -190,7 +199,7 @@
             />
             <!-- Downloaded from FontAwesome -->
             <svg
-              v-if="form.security.length === 3"
+              v-if="form.security.length === 3 && showValidMark"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               class="check"
@@ -339,10 +348,8 @@ export default class CreditCard extends Vue {
     }),
   })
   public cardIconConfig!: ICardIconConfig;
-  @Prop({
-    default: '',
-  })
-  public errorMessage?: string;
+  @Prop({ default: '' }) public errorMessage?: string;
+  @Prop({ default: true }) public showValidMark?: boolean;
 
   // Copied of error message
   innerErrorMessage = '';

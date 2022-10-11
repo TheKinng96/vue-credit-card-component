@@ -7,6 +7,8 @@ Features:
 - Business card support
 - Order arrangement support
 - Error handling for card
+- Mini icon position configuration
+- Valid mark to let user knows input is fine
 
 <img src="./card.gif">
 
@@ -41,17 +43,18 @@ import 'v-credit-card-component/dist/v-credit-card.css';
 
 #### Available props
 
-| props              | required | options                                  | default        | explanation                                       |
-| ------------------ | -------- | ---------------------------------------- | -------------- | ------------------------------------------------- |
-| direction          | no       | column, row, column-reverse, row-reverse | column         | Card and form side-by-side or top to bottom       |
-| className          | no       | any string                               | none           | For any custom design, add your own wrapper class |
-| yearDigits         | no       | 2,4 (number)                             | 2              | construct the expiration year (YY or YYYY)        |
-| noCard             | no       | true, false                              | false          | Show only the form without the credit card image  |
-| trans              | no       | ITranslation                             | default labels | Override the default labels with your own         |
-| order              | no       | Order                                    | default orders | Rearrange the input orders                        |
-| acceptBusinessCard | no       | boolean                                  | true           | Will add a toggle for business name input         |
-| cardIconConfig     | no       | ICardIconConfig                          | default config | Controlling the position of the mini card icon    |
-| errorMessage       | no       | string                                   | ''             | Show the error message if process has error       |
+| props              | required | options                                  | default        | explanation                                                   |
+| ------------------ | -------- | ---------------------------------------- | -------------- | ------------------------------------------------------------- |
+| direction          | no       | column, row, column-reverse, row-reverse | column         | Card and form side-by-side or top to bottom                   |
+| className          | no       | any string                               | none           | For any custom design, add your own wrapper class             |
+| yearDigits         | no       | 2,4 (number)                             | 2              | construct the expiration year (YY or YYYY)                    |
+| noCard             | no       | true, false                              | false          | Show only the form without the credit card image              |
+| trans              | no       | ITranslation                             | default labels | Override the default labels with your own                     |
+| order              | no       | Order                                    | default orders | Rearrange the input orders                                    |
+| acceptBusinessCard | no       | boolean                                  | true           | Will add a toggle for business name input                     |
+| cardIconConfig     | no       | ICardIconConfig                          | default config | Controlling the position of the mini card icon                |
+| errorMessage       | no       | string                                   | ''             | Show the error message if process has error                   |
+| showValidMark      | no       | boolean                                  | true           | Show green indicator on the input field if the input is valid |
 
 #### Events
 
@@ -290,6 +293,19 @@ The error message will be removed if the input is dirty.
     },
   };
 </script>
+```
+
+#### Valid mark
+
+Indicator that shows if the input field has received valid value
+default is `true`
+
+<img src="./src/assets/valid-mark.png">
+
+```html
+<template>
+  <v-credit-card :showValidMark="'true'" />
+</template>
 ```
 
 ### TYPEs
