@@ -38,7 +38,10 @@
           v-if="form.isBusinessCard && acceptBusinessCard"
           :class="{ success: form.businessName.length > 0 && showValidMark }"
         >
-          <label for="businessName">{{ trans.businessName.label }}</label>
+          <label for="businessName">
+            {{ trans.businessName.label }}
+            <slot name="businessNameLabel"></slot>
+          </label>
           <input
             maxlength="20"
             name="businessName"
@@ -66,7 +69,10 @@
           :style="{ order: order.name }"
           :class="{ success: form.name.length > 0 && showValidMark }"
         >
-          <label for="name">{{ trans.name.label }}</label>
+          <label for="name">
+            {{ trans.name.label }}
+            <slot name="nameLabel"></slot>
+          </label>
           <input
             maxlength="20"
             name="name"
@@ -98,7 +104,10 @@
             success: cardIsValid && showValidMark,
           }"
         >
-          <label for="cardNumber">{{ trans.card.label }}</label>
+          <label for="cardNumber">
+            {{ trans.card.label }}
+            <slot name="cardNumberLabel"></slot>
+          </label>
           <input
             type="text"
             name="cardNumber"
@@ -154,11 +163,12 @@
             class="field"
             :class="{ success: expiryDateIsValid && showValidMark }"
           >
-            <label for="expirationDate"
-              >{{ trans.expiration.label }} (mm/{{
+            <label for="expirationDate">
+              {{ trans.expiration.label }} (mm/{{
                 isTwoDigitsYear ? 'yy' : 'yyyy'
-              }})</label
-            >
+              }})
+              <slot name="expirationDateLabel"></slot>
+            </label>
             <input
               type="text"
               name="expirationDate"
@@ -186,7 +196,10 @@
             class="field"
             :class="{ success: form.security.length === 3 && showValidMark }"
           >
-            <label for="securityCode">{{ trans.security.label }}</label>
+            <label for="securityCode">
+              {{ trans.security.label }}
+              <slot name="securityCodeLabel"></slot>
+            </label>
             <input
               type="text"
               name="securityCode"
@@ -223,7 +236,10 @@
             ref="isBusinessCard"
             v-model="form.isBusinessCard"
           />
-          <label for="isBusinessCard">{{ trans.isBusinessCard.label }}</label>
+          <label for="isBusinessCard">
+            {{ trans.isBusinessCard.label }}
+            <slot name="isBusinessCardLabel"></slot>
+          </label>
         </div>
       </div>
     </div>
@@ -536,6 +552,9 @@ export default class CreditCard extends Vue {
         label {
           padding-bottom: 5px;
           font-size: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
         }
 
         input {

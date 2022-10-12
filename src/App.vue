@@ -4,7 +4,14 @@
       @change="creditInfoChanged"
       :direction="'column'"
       :trans="translations"
-    />
+    >
+      <template v-slot:cardNumberLabel>
+        <h1>hihi</h1>
+      </template>
+      <template v-slot:nameLabel>
+        <h1>hihi</h1>
+      </template>
+    </hello-world>
   </div>
 </template>
 

@@ -312,6 +312,29 @@ default is `true`
 </template>
 ```
 
+#### Slot for extra information on the input field label
+
+Extra information can be inserted by v-slot.
+
+| Input field    | Slot Name           |
+| -------------- | ------------------- |
+| businessName   | businessNameLabel   |
+| name           | nameLabel           |
+| cardNumber     | cardNumberLabel     |
+| expirationDate | expirationDateLabel |
+| securityCode   | securityCodeLabel   |
+| isBusinessCard | isBusinessCardLabel |
+
+```html
+<template>
+  <v-credit-card>
+    <template v-slot:businessNameLabel>
+      <!-- Your code here -->
+    </template>
+  </v-credit-card>
+</template>
+```
+
 ### TYPEs
 
 ```js
