@@ -4,13 +4,8 @@
       @change="creditInfoChanged"
       :direction="'column'"
       :trans="translations"
+      :errorMessage="error"
     >
-      <template v-slot:cardNumberLabel>
-        <h1>hihi</h1>
-      </template>
-      <template v-slot:nameLabel>
-        <h1>hihi</h1>
-      </template>
     </hello-world>
   </div>
 </template>
@@ -57,6 +52,14 @@ export default class App extends Vue {
       security: 'セキュリティーコード',
     },
   };
+  error = '';
+
+  mounted() {
+    setTimeout(() => {
+      this.error = '123123';
+    }, 1000);
+  }
+
   creditInfoChanged() {
     // console.log(data);
   }

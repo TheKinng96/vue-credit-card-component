@@ -401,6 +401,11 @@ export default class CreditCard extends Vue {
     this.$emit('cardChanged', val);
   }
 
+  @Watch('errorMessage')
+  updateError(val: string) {
+    this.innerErrorMessage = val;
+  }
+
   clearError() {
     if (this.innerErrorMessage) {
       this.innerErrorMessage = '';
@@ -478,8 +483,8 @@ export default class CreditCard extends Vue {
   }
 
   get cardIsValid() {
-    if (!this.errorMessage) {
-      return this.form.cardNumber.length === 19;
+    if (!this.innerErrorMessage) {
+      return this.form.cardNumber.replaceAll(' ', '').length === 16;
     }
 
     return false;
@@ -601,14 +606,14 @@ export default class CreditCard extends Vue {
           svg {
             &.inline {
               right: 38px;
-              top: calc(50% - 18px);
+              top: 2.25rem;
             }
 
             &.exclamation {
               position: absolute;
               width: 1.5rem;
               right: 0.5rem;
-              top: calc(50% - 0.75rem);
+              top: 2.5rem;
             }
           }
 
