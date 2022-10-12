@@ -9,6 +9,7 @@ Features:
 - Error handling for card
 - Mini icon position configuration
 - Valid mark to let user knows input is fine
+- Slot for extra information on label
 
 <img src="./src/assets/card.gif">
 
