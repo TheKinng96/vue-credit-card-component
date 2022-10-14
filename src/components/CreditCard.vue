@@ -38,7 +38,7 @@
           v-if="form.isBusinessCard && acceptBusinessCard"
           :class="{ success: form.businessName.length > 0 && showValidMark }"
         >
-          <label for="businessName">
+          <label for="businessName" id="labelBusinessName">
             {{ trans.businessName.label }}
             <slot name="businessNameLabel"></slot>
           </label>
@@ -69,7 +69,7 @@
           :style="{ order: order.name }"
           :class="{ success: form.name.length > 0 && showValidMark }"
         >
-          <label for="name">
+          <label for="name" id="labelName">
             {{ trans.name.label }}
             <slot name="nameLabel"></slot>
           </label>
@@ -104,7 +104,7 @@
             success: cardIsValid && showValidMark,
           }"
         >
-          <label for="cardNumber">
+          <label for="cardNumber" id="labelCardNumber">
             {{ trans.card.label }}
             <slot name="cardNumberLabel"></slot>
           </label>
@@ -163,7 +163,7 @@
             class="field"
             :class="{ success: expiryDateIsValid && showValidMark }"
           >
-            <label for="expirationDate">
+            <label for="expirationDate" id="labelExpiryDate">
               {{ trans.expiration.label }} (mm/{{
                 isTwoDigitsYear ? 'yy' : 'yyyy'
               }})
@@ -196,7 +196,7 @@
             class="field"
             :class="{ success: form.security.length === 3 && showValidMark }"
           >
-            <label for="securityCode">
+            <label for="securityCode" id="labelSecurityCode">
               {{ trans.security.label }}
               <slot name="securityCodeLabel"></slot>
             </label>
@@ -236,7 +236,7 @@
             ref="isBusinessCard"
             v-model="form.isBusinessCard"
           />
-          <label for="isBusinessCard">
+          <label for="isBusinessCard" id="labelBusinessCardCheckbox">
             {{ trans.isBusinessCard.label }}
             <slot name="isBusinessCardLabel"></slot>
           </label>
