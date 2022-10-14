@@ -9,7 +9,7 @@ Features:
 - Error handling for card
 - Mini icon position configuration
 - Valid mark to let user knows input is fine
-- Slot for extra information on label
+- Slot for extra information on label <-- currently not working, open for PR and help (v-slot not working after build)
 
 <img src="./src/assets/card.gif">
 
