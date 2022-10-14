@@ -107,6 +107,14 @@
           <label for="cardNumber" id="labelCardNumber">
             {{ trans.card.label }}
             <slot name="cardNumberLabel"></slot>
+            <div v-if="tooltip.showTooltip" class="tooltip">
+              <p>?</p>
+              <div>
+                <div class="tooltip-content-wrapper">
+                  <p v-html="tooltip.context"></p>
+                </div>
+              </div>
+            </div>
           </label>
           <input
             type="text"
@@ -300,6 +308,11 @@ interface ICardIconConfig {
   position: 'inline' | 'top';
 }
 
+interface ITooltipConfig {
+  showTooltip: boolean;
+  context: string;
+}
+
 @Component({
   components: {
     CardFront,
@@ -366,6 +379,13 @@ export default class CreditCard extends Vue {
   public cardIconConfig!: ICardIconConfig;
   @Prop({ default: '' }) public errorMessage?: string;
   @Prop({ default: true }) public showValidMark?: boolean;
+  @Prop({
+    default: () => ({
+      showTooltip: false,
+      context: '',
+    }),
+  })
+  public tooltip?: ITooltipConfig;
 
   // Copied of error message
   innerErrorMessage = '';
@@ -560,6 +580,61 @@ export default class CreditCard extends Vue {
           display: flex;
           align-items: center;
           justify-content: flex-start;
+
+          .tooltip {
+            position: relative;
+
+            > p {
+              padding: 0;
+              margin: 0;
+              border-radius: 50%;
+              border: 1px #707070 solid;
+              color: #707070;
+              width: 1rem;
+              height: 1rem;
+              margin-left: 0.5rem;
+              font-size: 0.7rem;
+              transition: all 0.25s ease-in-out;
+            }
+
+            > div {
+              position: absolute;
+              background: #ff7575;
+              padding: 0.5rem 1rem;
+              opacity: 0;
+              top: -0.75rem;
+              left: 2.5rem;
+              transition: all 0.25s ease-in-out;
+              width: max-content;
+              border-radius: 0.4rem;
+
+              .tooltip-content-wrapper {
+                position: relative;
+                &:before {
+                  content: ' ';
+                  position: absolute;
+                  width: 0;
+                  height: 0;
+                  left: -2rem;
+                  top: 50%;
+                  bottom: auto;
+                  border: 0.5rem solid;
+                  border-color: transparent #ff7575 transparent transparent;
+                  transform: translateY(-50%);
+                }
+
+                p {
+                  color: white;
+                }
+              }
+            }
+
+            &:hover {
+              > div {
+                opacity: 1;
+              }
+            }
+          }
         }
 
         input {
