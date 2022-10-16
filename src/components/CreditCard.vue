@@ -43,6 +43,7 @@
             <slot name="businessNameLabel"></slot>
           </label>
           <input
+            :tabindex="order.businessName"
             maxlength="20"
             name="businessName"
             id="businessName"
@@ -74,6 +75,7 @@
             <slot name="nameLabel"></slot>
           </label>
           <input
+            :tabindex="order.name"
             maxlength="20"
             name="name"
             id="name"
@@ -117,6 +119,7 @@
             </div>
           </label>
           <input
+            :tabindex="order.card"
             type="text"
             name="cardNumber"
             id="cardNumber"
@@ -178,6 +181,7 @@
               <slot name="expirationDateLabel"></slot>
             </label>
             <input
+              :tabindex="order.security"
               type="text"
               name="expirationDate"
               id="expirationDate"
@@ -209,6 +213,7 @@
               <slot name="securityCodeLabel"></slot>
             </label>
             <input
+              :tabindex="order.security"
               type="text"
               name="securityCode"
               id="securityCode"
@@ -238,6 +243,7 @@
           v-if="acceptBusinessCard"
         >
           <input
+            :tabindex="order.isBusinessCardCheckbox"
             type="checkbox"
             name="isBusinessCard"
             id="isBusinessCard"

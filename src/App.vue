@@ -4,7 +4,7 @@
       @change="creditInfoChanged"
       :direction="'column'"
       :trans="translations"
-      :errorMessage="error"
+      :order="order"
     >
     </hello-world>
   </div>
@@ -20,6 +20,13 @@ import HelloWorld from '@/components/CreditCard.vue';
   },
 })
 export default class App extends Vue {
+  order = {
+    businessName: 2,
+    name: 2,
+    card: 1,
+    security: 3,
+    isBusinessCardCheckbox: 4,
+  };
   translations = {
     name: {
       label: '名前',
