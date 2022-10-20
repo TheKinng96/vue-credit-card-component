@@ -511,7 +511,7 @@ export default class CreditCard extends Vue {
   get cardIsValid() {
     if (!this.innerErrorMessage) {
       let length = this.form.cardNumber.replaceAll(' ', '').length;
-      return length >= 13 && length <= 19;
+      return length >= 14 && length <= 16;
     }
 
     return false;
