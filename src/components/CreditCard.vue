@@ -51,6 +51,7 @@
             :placeholder="trans.businessName.placeholder"
             v-model="form.businessName"
             @focus="flipped = false"
+            ref="businessName"
           />
           <!-- Downloaded from FontAwesome -->
           <svg
@@ -84,6 +85,7 @@
             v-model="form.name"
             @focus="flipped = false"
             @blur="flipped = false"
+            ref="cardName"
           />
           <!-- Downloaded from FontAwesome -->
           <svg
@@ -264,7 +266,12 @@
 // Source reference: https://codepen.io/quinlo/pen/YONMEa
 import IMask from 'imask';
 import cardTypes from './CreditCard/cardTypes';
-import { cardMasks, expirationMask, securityMask } from './CreditCard/masks';
+import {
+  cardMasks,
+  expirationMask,
+  securityMask,
+  nameMask,
+} from './CreditCard/masks';
 import { CardFront, CardBack } from './CreditCard/cards';
 import * as InputIcons from './CreditCard/inputIcons';
 import * as CardIcons from './CreditCard/cardDisplay';
@@ -404,6 +411,8 @@ export default class CreditCard extends Vue {
   cardNumberMask: any = null;
   expirationDateMask: any = null;
   securityCodeMask: any = null;
+  businessNameMask: any = null;
+  cardNameMask: any = null;
   form: IData = {
     name: '',
     businessName: '',
@@ -447,6 +456,8 @@ export default class CreditCard extends Vue {
   defineMasks() {
     // Mask the Credit Card Number Input
     this.cardNumberMask = new (IMask as any)(this.$refs.cardNumber, cardMasks);
+    this.businessNameMask = new (IMask as any)(this.$refs.cardName, nameMask);
+    this.cardNameMask = new (IMask as any)(this.$refs.cardNumber, nameMask);
 
     // Mask the Expiration Date
     this.expirationDateMask = new (IMask as any)(
@@ -472,6 +483,16 @@ export default class CreditCard extends Vue {
     this.securityCodeMask.on(
       'accept',
       () => (this.form.security = this.securityCodeMask.value),
+    );
+
+    this.businessNameMask.on(
+      'accept',
+      () => (this.form.businessName = this.businessNameMask.value),
+    );
+
+    this.cardNameMask.on(
+      'accept',
+      () => (this.form.name = this.cardNameMask.value),
     );
 
     // Update card number field and card icon

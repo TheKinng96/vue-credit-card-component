@@ -101,6 +101,10 @@ export const expirationMask = (isTwoDigitsYear: boolean) => {
     };
 };
 
+export const nameMask = {
+    mask: /[a-z]/,
+};
+
 export const securityMask = {
     mask: '0000',
 };

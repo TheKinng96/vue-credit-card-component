@@ -38,7 +38,7 @@ export default class App extends Vue {
     },
     businessName: {
       label: '会社名',
-      placeholder: '株式会社　これから',
+      placeholder: 'Corekara Inc',
     },
     expiration: {
       label: '有効期限',
