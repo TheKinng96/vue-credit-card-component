@@ -478,6 +478,12 @@ export default class CreditCard extends Vue {
       ? this.form.businessName
       : '';
 
+    if (this.cardNameIsInvalid || this.businessNameIsInvalid) {
+      this.$emit('hasError', true);
+    } else {
+      this.$emit('hasError', false);
+    }
+
     this.$emit('change', Object.assign({}, this.$data.form));
   }
 

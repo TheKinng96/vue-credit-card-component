@@ -6,6 +6,7 @@
       :trans="translations"
       :order="order"
       :errorMessage="error"
+      @hasError="hasError"
     >
     </hello-world>
   </div>
@@ -70,6 +71,10 @@ export default class App extends Vue {
     setTimeout(() => {
       this.error.card = '123123';
     }, 1000);
+  }
+
+  hasError(val: boolean) {
+    console.log(val);
   }
 
   creditInfoChanged() {
