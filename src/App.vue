@@ -5,6 +5,7 @@
       :direction="'column'"
       :trans="translations"
       :order="order"
+      :errorMessage="error"
     >
     </hello-world>
   </div>
@@ -59,11 +60,15 @@ export default class App extends Vue {
       security: 'セキュリティーコード',
     },
   };
-  error = '';
+  error = {
+    card: '',
+    cardName: 'Please only input alphabet character.',
+    businessName: 'Please only input alphabet character.',
+  };
 
   mounted() {
     setTimeout(() => {
-      this.error = '123123';
+      this.error.card = '123123';
     }, 1000);
   }
 

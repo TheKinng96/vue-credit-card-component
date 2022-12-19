@@ -10,6 +10,7 @@ Features:
 - Mini icon position configuration
 - Valid mark to let user knows input is fine
 - Slot for extra information on label <-- currently not working, open for PR and help (v-slot not working after build)
+- Customizable error message validator and messages
 
 <img src="./src/assets/card.gif">
 
@@ -44,18 +45,19 @@ import 'v-credit-card-component/dist/v-credit-card.css';
 
 #### Available props
 
-| props              | required | options                                  | default        | explanation                                                   |
-| ------------------ | -------- | ---------------------------------------- | -------------- | ------------------------------------------------------------- |
-| direction          | no       | column, row, column-reverse, row-reverse | column         | Card and form side-by-side or top to bottom                   |
-| className          | no       | any string                               | none           | For any custom design, add your own wrapper class             |
-| yearDigits         | no       | 2,4 (number)                             | 2              | construct the expiration year (YY or YYYY)                    |
-| noCard             | no       | true, false                              | false          | Show only the form without the credit card image              |
-| trans              | no       | ITranslation                             | default labels | Override the default labels with your own                     |
-| order              | no       | Order                                    | default orders | Rearrange the input orders                                    |
-| acceptBusinessCard | no       | boolean                                  | true           | Will add a toggle for business name input                     |
-| cardIconConfig     | no       | ICardIconConfig                          | default config | Controlling the position of the mini card icon                |
-| errorMessage       | no       | string                                   | ''             | Show the error message if process has error                   |
-| showValidMark      | no       | boolean                                  | true           | Show green indicator on the input field if the input is valid |
+| props              | required | options                                  | default                                                                                            | explanation                                                         |
+| ------------------ | -------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| direction          | no       | column, row, column-reverse, row-reverse | column                                                                                             | Card and form side-by-side or top to bottom                         |
+| className          | no       | any string                               | none                                                                                               | For any custom design, add your own wrapper class                   |
+| yearDigits         | no       | 2,4 (number)                             | 2                                                                                                  | construct the expiration year (YY or YYYY)                          |
+| noCard             | no       | true, false                              | false                                                                                              | Show only the form without the credit card image                    |
+| trans              | no       | ITranslation                             | default labels                                                                                     | Override the default labels with your own                           |
+| order              | no       | Order                                    | default orders                                                                                     | Rearrange the input orders                                          |
+| acceptBusinessCard | no       | boolean                                  | true                                                                                               | Will add a toggle for business name input                           |
+| cardIconConfig     | no       | ICardIconConfig                          | default config                                                                                     | Controlling the position of the mini card icon                      |
+| errorMessage       | no       | IErrorMessages                           | `{card: '', cardName: 'Please enter only alphabet.', businessName: 'Please enter only alphabet.'}` | Show the error message if process has error or card name has issues |
+| showValidMark      | no       | boolean                                  | true                                                                                               | Show green indicator on the input field if the input is valid       |
+| regex              | no       | IRegex                                   | '^[A-Za-z]+$' for all elements                                                                     | Regex to validate name and business name                            |
 
 #### Events
 
@@ -283,7 +285,9 @@ The error message will be removed if the input is dirty.
     data() {
       return {
         // ...
-        errorMessage: 'something wrong with the card',
+        errorMessage: {
+          card: 'something wrong with the card',
+        },
       };
     },
     methods: {
@@ -292,9 +296,56 @@ The error message will be removed if the input is dirty.
         fetch('api here')
           .then()
           .catch((error) => {
-            this.errorMessage = error;
+            this.errorMessage.card = error;
           });
       },
+    },
+  };
+</script>
+```
+
+#### Card name and business card name validation
+
+Customizable validator for card name and business card name with customizable error messages.
+To DEACTIVATE the validator, simply define errorMessage object without cardName and businessName.
+
+```javascript
+const errorMessages = {
+  card: '',
+};
+```
+
+Regex is optional field
+
+```javascript
+const regex = {
+  cardName: '',
+  businessName: '',
+};
+```
+
+<img src="./src/assets/name-errors.png">
+
+```html
+<template>
+  <v-credit-card :errorMessage="errorMessage" :regex="regex" />
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        // ...
+        errorMessage: {
+          card: 'something wrong with the card', // This is a required field, at least an empty string
+          cardName: 'Please only input alphabet character.',
+          businessName: 'Please only input alphabet character.',
+        },
+        regex: {
+          cardName: '^[A-Za-z]+$',
+          businessName: '^[A-Za-z]+$',
+        },
+      };
     },
   };
 </script>
@@ -386,6 +437,24 @@ interface Order {
 interface ICardIconConfig {
   showIcon?: boolean;
   position: 'inline' | 'top';
+}
+
+// Tooltip for extra info for the supported card brands
+interface ITooltipConfig {
+  showTooltip: boolean;
+  context: string;
+}
+
+// Error messages
+interface IErrorMessages {
+  card: string; // Display below card number input
+  cardName?: string; // Display below card name input, rule: cardName regex
+  businessName?: string; // Display below card business name input, rule: businessName regex
+}
+
+interface IRegex {
+  cardName: string; // Regex for card name input
+  businessName: string; // Regex for business card name input
 }
 ```
 

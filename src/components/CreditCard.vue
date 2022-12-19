@@ -36,7 +36,10 @@
           class="field"
           :style="{ order: order.businessName }"
           v-if="form.isBusinessCard && acceptBusinessCard"
-          :class="{ success: form.businessName.length > 0 && showValidMark }"
+          :class="{
+            success: form.businessName.length > 0 && showValidMark,
+            error: errorMessage.businessName && businessNameIsInvalid,
+          }"
         >
           <label for="businessName" id="labelBusinessName">
             {{ trans.businessName.label }}
@@ -53,6 +56,18 @@
             @focus="flipped = false"
             ref="businessName"
           />
+          <p v-if="businessNameIsInvalid">{{ errorMessage.businessName }}</p>
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            class="exclamation"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="red"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
+            />
+          </svg>
           <!-- Downloaded from FontAwesome -->
           <svg
             v-if="form.businessName.length > 0 && showValidMark"
@@ -69,7 +84,10 @@
         <div
           class="field"
           :style="{ order: order.name }"
-          :class="{ success: form.name.length > 0 && showValidMark }"
+          :class="{
+            success: form.name.length > 0 && showValidMark,
+            error: errorMessage.cardName && cardNameIsInvalid,
+          }"
         >
           <label for="name" id="labelName">
             {{ trans.name.label }}
@@ -87,6 +105,18 @@
             @blur="flipped = false"
             ref="cardName"
           />
+          <p v-if="cardNameIsInvalid">{{ errorMessage.cardName }}</p>
+          <!-- Downloaded from FontAwesome -->
+          <svg
+            class="exclamation"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="red"
+              d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
+            />
+          </svg>
           <!-- Downloaded from FontAwesome -->
           <svg
             v-if="form.name.length > 0 && showValidMark"
@@ -266,12 +296,7 @@
 // Source reference: https://codepen.io/quinlo/pen/YONMEa
 import IMask from 'imask';
 import cardTypes from './CreditCard/cardTypes';
-import {
-  cardMasks,
-  expirationMask,
-  securityMask,
-  nameMask,
-} from './CreditCard/masks';
+import { cardMasks, expirationMask, securityMask } from './CreditCard/masks';
 import { CardFront, CardBack } from './CreditCard/cards';
 import * as InputIcons from './CreditCard/inputIcons';
 import * as CardIcons from './CreditCard/cardDisplay';
@@ -324,6 +349,17 @@ interface ICardIconConfig {
 interface ITooltipConfig {
   showTooltip: boolean;
   context: string;
+}
+
+interface IErrorMessages {
+  card: string;
+  cardName?: string;
+  businessName?: string;
+}
+
+interface IRegex {
+  cardName: string;
+  businessName: string;
 }
 
 @Component({
@@ -390,7 +426,21 @@ export default class CreditCard extends Vue {
     }),
   })
   public cardIconConfig!: ICardIconConfig;
-  @Prop({ default: '' }) public errorMessage?: string;
+  @Prop({
+    default: () => ({
+      card: '',
+      cardName: 'Please enter only alphabet.',
+      businessName: 'Please enter only alphabet.',
+    }),
+  })
+  public errorMessage!: IErrorMessages;
+  @Prop({
+    default: () => ({
+      cardName: '^[A-Za-z\\s]+$',
+      businessName: '^[A-Za-z\\s]+$',
+    }),
+  })
+  public regex!: IRegex;
   @Prop({ default: true }) public showValidMark?: boolean;
   @Prop({
     default: () => ({
@@ -411,8 +461,6 @@ export default class CreditCard extends Vue {
   cardNumberMask: any = null;
   expirationDateMask: any = null;
   securityCodeMask: any = null;
-  businessNameMask: any = null;
-  cardNameMask: any = null;
   form: IData = {
     name: '',
     businessName: '',
@@ -421,6 +469,8 @@ export default class CreditCard extends Vue {
     security: '',
     isBusinessCard: false,
   };
+  cardNameRegex: any = null;
+  businessNameRegex: any = null;
 
   @Watch('fields')
   onFieldsChanged() {
@@ -436,9 +486,9 @@ export default class CreditCard extends Vue {
     this.$emit('cardChanged', val);
   }
 
-  @Watch('errorMessage')
-  updateError(val: string) {
-    this.innerErrorMessage = val;
+  @Watch('errorMessage', { deep: true })
+  updateError(val: IErrorMessages) {
+    this.innerErrorMessage = val.card;
   }
 
   clearError() {
@@ -450,14 +500,15 @@ export default class CreditCard extends Vue {
   mounted() {
     this.defineMasks();
     this.setMasksListeners();
-    this.innerErrorMessage = this.errorMessage as string;
+    this.innerErrorMessage = this.errorMessage.card;
+
+    this.cardNameRegex = new RegExp(this.regex.cardName, 'i');
+    this.businessNameRegex = new RegExp(this.regex.businessName, 'i');
   }
 
   defineMasks() {
     // Mask the Credit Card Number Input
     this.cardNumberMask = new (IMask as any)(this.$refs.cardNumber, cardMasks);
-    this.businessNameMask = new (IMask as any)(this.$refs.cardName, nameMask);
-    this.cardNameMask = new (IMask as any)(this.$refs.cardNumber, nameMask);
 
     // Mask the Expiration Date
     this.expirationDateMask = new (IMask as any)(
@@ -483,16 +534,6 @@ export default class CreditCard extends Vue {
     this.securityCodeMask.on(
       'accept',
       () => (this.form.security = this.securityCodeMask.value),
-    );
-
-    this.businessNameMask.on(
-      'accept',
-      () => (this.form.businessName = this.businessNameMask.value),
-    );
-
-    this.cardNameMask.on(
-      'accept',
-      () => (this.form.name = this.cardNameMask.value),
     );
 
     // Update card number field and card icon
@@ -527,6 +568,22 @@ export default class CreditCard extends Vue {
 
   hasProperty(obj: any, key: string) {
     return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
+  }
+
+  get cardNameIsInvalid() {
+    if (this.form.name.length <= 0) {
+      return false;
+    }
+
+    return !this.cardNameRegex.test(this.form.name);
+  }
+
+  get businessNameIsInvalid() {
+    if (this.form.businessName.length <= 0) {
+      return false;
+    }
+
+    return !this.businessNameRegex.test(this.form.businessName);
   }
 
   get cardIsValid() {
@@ -675,6 +732,10 @@ export default class CreditCard extends Vue {
           border: 1px solid #dcdcdc;
         }
 
+        svg.exclamation {
+          display: none;
+        }
+
         &.success {
           input,
           input:focus,
@@ -717,6 +778,11 @@ export default class CreditCard extends Vue {
               width: 1.5rem;
               right: 0.5rem;
               top: 2.5rem;
+              display: block;
+            }
+
+            &.check {
+              display: none;
             }
           }
 
